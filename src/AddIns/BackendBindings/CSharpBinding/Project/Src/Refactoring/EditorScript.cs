@@ -152,7 +152,6 @@ namespace CSharpBinding.Refactoring
 			if (doc != null) {
 				doc.UndoStack.Push(op);
 			}
-			layer.ScrollToInsertionPoint();
 			layer.Exited += delegate(object s, InsertionCursorEventArgs args) {
 				doc.UndoStack.StartContinuedUndoGroup();
 				try {
