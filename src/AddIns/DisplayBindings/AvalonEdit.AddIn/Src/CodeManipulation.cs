@@ -277,8 +277,6 @@ namespace ICSharpCode.AvalonEdit.AddIn
 		
 		static void SelectText(Selection selection, ITextEditor editor)
 		{
-			if (selection == null)
-				return;
 			int startOffset, endOffset;
 			try {
 				startOffset = editor.Document.PositionToOffset(selection.Start);
