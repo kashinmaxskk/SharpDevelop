@@ -133,6 +133,26 @@ namespace ICSharpCode.PackageManagement
 			}
 		}
 		
+		public RegisteredPackageSourcesViewModel RegisteredProjectTemplatePackageSourcesViewModel {
+			get {
+				if (registeredProjectTemplatePackageSourcesViewModel == null) {
+					RegisteredPackageSources packageSources = GetProjectTemplatePackageSources();
+					registeredProjectTemplatePackageSourcesViewModel =
+						CreateRegisteredPackageSourcesViewModel(packageSources);
+				}
+				return registeredProjectTemplatePackageSourcesViewModel;
+			}
+		}
+		
+		RegisteredPackageSources GetProjectTemplatePackageSources()
+		{
+			if (IsInDesignMode()) {
+				return CreateDesignTimeRegisteredPackageSources();
+			} else {
+				return PackageManagementServices.ProjectTemplatePackageSources;
+			}
+		}
+		
 		public PackageManagementOptionsViewModel PackageManagementOptionsViewModel {
 			get {
 				if (packageManagementOptionsViewModel == null) {
