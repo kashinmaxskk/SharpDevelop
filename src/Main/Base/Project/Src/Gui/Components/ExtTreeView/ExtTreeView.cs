@@ -132,7 +132,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		#region label editing
 		
-		//string labelEditOldLabel;
+		string labelEditOldLabel;
 		
 		public void StartLabelEdit(ExtTreeNode node)
 		{
@@ -146,12 +146,10 @@ namespace ICSharpCode.SharpDevelop.Gui
 				LabelEdit = true;
 				node.BeforeLabelEdit();
 				node.BeginEdit();
-				// Workaround disabled due to http://community.sharpdevelop.net/forums/t/14354.aspx
-				// "Rename fails if filename in Project Explorer is too long for the treeview viewport"
-				//// remove node's label so that it doesn't get rendered behind the label editing textbox
-				//// (if the user deletes some characters so that the text box shrinks)
-				//labelEditOldLabel = node.Text;
-				//node.Text = "";
+				// remove node's label so that it doesn't get rendered behind the label editing textbox
+				// (if the user deletes some characters so that the text box shrinks)
+				labelEditOldLabel = node.Text;
+				node.Text = "";
 			}
 		}
 		
@@ -178,8 +176,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 			
 			ExtTreeNode node = e.Node as ExtTreeNode;
 			if (node != null) {
-				//node.Text = labelEditOldLabel;
-				//labelEditOldLabel = null;
+				node.Text = labelEditOldLabel;
+				labelEditOldLabel = null;
 				if (e.Label != null) {
 					node.AfterLabelEdit(e.Label);
 				}
