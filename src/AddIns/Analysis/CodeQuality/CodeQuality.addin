@@ -6,7 +6,11 @@
 	
 	<Manifest>
 		<Identity name = "ICSharpCode.CodeQuality"/>
+<<<<<<< HEAD
 		<Dependency addin="ICSharpCode.Reporting.Addin" requirePreload="true"></Dependency>
+=======
+		<Dependency addin="ICSharpCode.Reports.Addin" requirePreload="true" />
+>>>>>>> parent of d4bc76e... Remove Addin-File from ICSharpCode.Reports.AddIn
 	</Manifest>
 	
 	<Runtime>

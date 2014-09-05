@@ -121,6 +121,9 @@
     <None Include="EmptyReport.xft">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+    <None Include="ICSharpCode.ReportDesigner.addin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="Project\Designer\SmartTagTransactions.cs" />
     <Compile Include="Project\Designer\TextBasedDesignerActionList.cs" />
     <Compile Include="Project\Designer\TextItemDesigner.cs" />
