@@ -410,26 +410,17 @@ namespace ICSharpCode.Profiler.Controller
 			}
 		}
 		
-		bool usePerformanceCounters = true;
-		
 		unsafe void AddDataset(byte *ptr, TargetProcessPointer nativeStartPosition, long offset, long length, bool isFirst, TargetProcessPointer nativeRootFuncInfoPosition)
 		{
 			using (DataSet dataSet = new DataSet(this, ptr + offset, length, nativeStartPosition, nativeRootFuncInfoPosition, isFirst, is64Bit)) {
 				lock (this.dataWriter) {
 					this.dataWriter.WriteDataSet(dataSet);
 					
-					if (usePerformanceCounters) {
-						if (performanceCounterInstanceName == null)
-							performanceCounterInstanceName = PerformanceCounterDescriptor.GetProcessInstanceName(profilee.Id);
-						
-						if (performanceCounterInstanceName == null) {
-							usePerformanceCounters = false;
-							LogString("Warning: One or more performance counters could not be accessed. " +
-							          "Please ensure that the perfmon service is enabled and running. " +
-							          "If the problem still persists try rebuilding the performance counters " +
-							          "by executing \"lodctr /R\" from a command line with administrative rights.");
-						}
-					}
+					if (performanceCounterInstanceName == null)
+						performanceCounterInstanceName = PerformanceCounterDescriptor.GetProcessInstanceName(profilee.Id);
+					
+					if (performanceCounterInstanceName == null)
+						LogString("instance not found!");
 					
 					foreach (var counter in performanceCounters)
 						counter.Collect(performanceCounterInstanceName);
