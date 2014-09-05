@@ -188,17 +188,10 @@ namespace ICSharpCode.SharpDevelop.Project
 			try {
 				engine.rootNode = engine.CreateBuildGraph(project);
 			} catch (CyclicDependencyException ex) {
-				BuildError error;
 				if (ex.Project1 != null && ex.Project2 != null)
-					error = new BuildError(null, "Cyclic dependency between " + ex.Project1.Name + " and " + ex.Project2.Name);
+					engine.results.Add(new BuildError(null, "Cyclic dependency between " + ex.Project1.Name + " and " + ex.Project2.Name));
 				else
-					error = new BuildError(null, "Cyclic dependency");
-				engine.results.Add(error);
-				if (engine.combinedBuildFeedbackSink != null) {
-					engine.combinedBuildFeedbackSink.ReportError(error);
-					engine.combinedBuildFeedbackSink.ReportMessage(error.ToString());
-				}
-				
+					engine.results.Add(new BuildError(null, "Cyclic dependency"));
 				engine.results.Result = BuildResultCode.BuildFileError;
 				engine.ReportDone();
 				return;
