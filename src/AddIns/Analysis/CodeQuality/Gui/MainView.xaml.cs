@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -73,7 +72,7 @@ namespace ICSharpCode.CodeQuality.Gui
 				return;
 			
 			string fileName = ProjectService.CurrentProject.OutputAssemblyFullPath;
-			if (!File.Exists(fileName))
+			if (string.IsNullOrEmpty(fileName))
 			{
 				MessageBox.Show("Project output assembly not found! Please build it first!");
 				return;
