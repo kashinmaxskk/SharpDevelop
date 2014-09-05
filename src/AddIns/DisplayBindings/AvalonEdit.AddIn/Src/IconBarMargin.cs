@@ -47,11 +47,7 @@ namespace ICSharpCode.AvalonEdit.AddIn
 		
 		void OnRedrawRequested(object sender, EventArgs e)
 		{
-			// Don't invalidate the IconBarMargin if it'll be invalidated again once the
-			// visual lines become valid.
-			if (this.TextView != null && this.TextView.VisualLinesValid) {
-				InvalidateVisual();
-			}
+			InvalidateVisual();
 		}
 		
 		public virtual void Dispose()
