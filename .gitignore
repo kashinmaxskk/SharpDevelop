@@ -19,3 +19,4 @@ bin/
 /src/Main/GlobalAssemblyInfo.cs
 /src/AddIns/Misc/UsageDataCollector/UsageDataCollector.AddIn/AnalyticsMonitor.AppProperties.cs
 
+/src/AddIns/Misc/PackageManagement/Packages/AvalonEdit/lib
