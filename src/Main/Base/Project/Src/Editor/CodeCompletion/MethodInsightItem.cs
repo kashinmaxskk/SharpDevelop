@@ -1,7 +1,6 @@
 ﻿// Copyright (c) AlphaSierraPapa for the SharpDevelop Team (for details please see \doc\copyright.txt)
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using ICSharpCode.SharpDevelop.Dom;
@@ -63,16 +62,14 @@ namespace ICSharpCode.SharpDevelop.Editor.CodeCompletion
 					param = ambience.Convert(method.Parameters[highlightParameter]);
 				
 				if (!string.IsNullOrEmpty(param)) {
-					// append ','  or ')' to avoid missing highlighting if there are multiple parameter names starting with the same substring.
-					string[] parts = headerText.Split(new[] { param + (method.Parameters.Count - 1 == highlightParameter ? ')' : ',') }, StringSplitOptions.None);
+					string[] parts = headerText.Split(new[] { param }, StringSplitOptions.None);
 					if (parts.Length != 2)
 						return headerText;
-					return new TextBlock { // add text wrapping
-						TextWrapping = TextWrapping.Wrap,
+					return new Span() {
 						Inlines = {
 							parts[0],
 							new Bold() { Inlines = { param } },
-							(method.Parameters.Count - 1 == highlightParameter ? ')' : ',') + parts[1]
+							parts[1]
 						}
 					};
 				}
