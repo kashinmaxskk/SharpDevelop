@@ -16,7 +16,7 @@ using ICSharpCode.SharpDevelop.Project;
 
 namespace ICSharpCode.SettingsEditor
 {
-	public class SettingsViewContent : AbstractViewContentHandlingLoadErrors, IHasPropertyContainer
+	public class SettingsViewContent : AbstractViewContent, IHasPropertyContainer
 	{
 		SettingsView view = new SettingsView();
 		PropertyContainer propertyContainer = new PropertyContainer();
@@ -36,7 +36,6 @@ namespace ICSharpCode.SettingsEditor
 				if (appConfigFile != null)
 					appConfigFile.MakeDirty();
 			};
-			this.UserContent = view;
 		}
 		
 		void TryOpenAppConfig(bool createIfNotExists)
@@ -58,7 +57,13 @@ namespace ICSharpCode.SettingsEditor
 			}
 		}
 		
-		protected override void LoadInternal(OpenedFile file, Stream stream)
+		public override object Control {
+			get {
+				return view;
+			}
+		}
+		
+		public override void Load(OpenedFile file, Stream stream)
 		{
 			if (file == PrimaryFile) {
 				try {
@@ -84,7 +89,7 @@ namespace ICSharpCode.SettingsEditor
 			}
 		}
 		
-		protected override void SaveInternal(OpenedFile file, Stream stream)
+		public override void Save(OpenedFile file, Stream stream)
 		{
 			if (file == PrimaryFile) {
 				using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.UTF8)) {

@@ -67,7 +67,6 @@ namespace ICSharpCode.SettingsEditor
 		
 		public void ShowEntries(IList<SettingsEntry> list)
 		{
-			bindingSource.Clear();
 			foreach (SettingsEntry entry in list) {
 				bindingSource.Add(entry);
 			}
