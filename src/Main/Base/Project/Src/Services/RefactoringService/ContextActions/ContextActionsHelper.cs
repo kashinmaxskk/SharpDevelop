@@ -113,21 +113,9 @@ namespace ICSharpCode.SharpDevelop.Refactoring
 			
 			public ObservableCollection<ContextActionViewModel> BuildTreeViewModel(IEnumerable<ITreeNode<IClass>> classTree)
 			{
-				ObservableCollection<ContextActionViewModel> c = new ObservableCollection<ContextActionViewModel>();
-				foreach (var node in classTree) {
-					var childNodes = BuildTreeViewModel(node.Children);
-					var action = MakeGoToMemberAction(node.Content, childNodes);
-					if (action != null) {
-						c.Add(action);
-					} else {
-						// If the member doesn't exist in the derived class, directly append the
-						// children of that derived class here.
-						c.AddRange(childNodes);
-						// This is necessary so that the method C.M() is shown in the case
-						// "class A { virtual void M(); } class B : A {} class C : B { override void M(); }"
-					}
-				}
-				return c;
+				return new ObservableCollection<ContextActionViewModel>(
+					classTree.Select(
+						node => MakeGoToMemberAction(node.Content, BuildTreeViewModel(node.Children))).Where(action => action != null));
 			}
 		}
 	}
