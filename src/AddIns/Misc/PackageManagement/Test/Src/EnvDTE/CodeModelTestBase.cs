@@ -23,7 +23,6 @@ using ICSharpCode.PackageManagement;
 using ICSharpCode.PackageManagement.EnvDTE;
 using ICSharpCode.SharpDevelop;
 using ICSharpCode.SharpDevelop.Dom;
-using ICSharpCode.SharpDevelop.Project;
 using ICSharpCode.SharpDevelop.Refactoring;
 using PackageManagement.Tests.Helpers;
 using Rhino.Mocks;
@@ -60,8 +59,7 @@ namespace PackageManagement.Tests.EnvDTE
 		
 		protected void CreateCodeModel()
 		{
-			ISolution solution = ProjectHelper.CreateSolutionWithoutInitializingServicesForUnitTests();
-			msbuildProject = ProjectHelper.CreateTestProject(solution, "MyProject");
+			msbuildProject = ProjectHelper.CreateTestProject();
 			
 			projectService = MockRepository.GenerateStub<IPackageManagementProjectService>();
 			fileService = MockRepository.GenerateStub<IPackageManagementFileService>();
@@ -85,17 +83,6 @@ namespace PackageManagement.Tests.EnvDTE
 			ICompilation compilation = new SimpleCompilation(solutionSnapshot, projectContent, projectContent.AssemblyReferences);
 			solutionSnapshot.AddCompilation(projectContent, compilation);
 			return compilation;
-		}
-		
-		protected void CreateCompilationForUpdatedCodeFile(string fileName, string code)
-		{
-			fileService
-				.Stub(fs => fs.GetCompilationUnit(fileName))
-				.WhenCalled(compilation => {
-					UpdateCodeFile(fileName, code);
-					compilation.ReturnValue = CreateCompilation();
-				})
-				.Return(null); // HACK: Not returning null here but Rhino Mocks fails to work otherwise.
 		}
 	}
 }

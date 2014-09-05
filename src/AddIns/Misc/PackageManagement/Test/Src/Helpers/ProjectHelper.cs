@@ -31,11 +31,6 @@ namespace PackageManagement.Tests.Helpers
 		public static ISolution CreateSolution()
 		{
 			SD.InitializeForUnitTests();
-			return CreateSolutionWithoutInitializingServicesForUnitTests();
-		}
-		
-		public static ISolution CreateSolutionWithoutInitializingServicesForUnitTests()
-		{
 			ISolution solution = MockRepository.GenerateStub<ISolution>();
 			solution.Stub(s => s.MSBuildProjectCollection).Return(new Microsoft.Build.Evaluation.ProjectCollection());
 			solution.Stub(s => s.Projects).Return(new NullSafeSimpleModelCollection<IProject>());
