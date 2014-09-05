@@ -7,7 +7,7 @@ using ICSharpCode.SharpDevelop.Util;
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 {
 	public class SvcUtilRunner
-	{		
+	{
 		public SvcUtilRunner(ServiceReferenceGeneratorOptions options)
 		{
 			this.Options = options;
@@ -16,8 +16,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 		public event EventHandler ProcessExited;
 		
 		public ServiceReferenceGeneratorOptions Options { get; private set; }
-		
-		public int ExitCode { get; private set; }
 		
 		public void Run()
 		{
@@ -64,9 +62,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 		void SvcUtilProcessExited(object sender, EventArgs e)
 		{
 			SvcUtilMessageView.AppendLine("SvcUtil finished.");
-			
-			var runner = (ProcessRunner)sender;
-			ExitCode = runner.ExitCode;
 			
 			WorkbenchSingleton.SafeThreadAsyncCall(() => OnProcessExited());
 		}

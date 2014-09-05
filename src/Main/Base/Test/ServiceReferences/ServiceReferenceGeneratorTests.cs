@@ -161,20 +161,9 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 				.Return(tempFileName);
 		}
 		
-		void SvcUtilRunCompletedSuccessfully()
+		void SvcUtilRunCompleted()
 		{
-			SvcUtilRunCompleted(exitCode: 0);
-		}
-		
-		void SvcUtilRunCompletedWithErrors()
-		{
-			SvcUtilRunCompleted(exitCode: 1);
-		}
-		
-		void SvcUtilRunCompleted(int exitCode)
-		{
-			var eventArgs = new GeneratorCompleteEventArgs(exitCode);
-			fakeProxyGenerator.Raise(g => g.Complete += null, fakeProxyGenerator, eventArgs);
+			fakeProxyGenerator.Raise(g => g.Complete += null, fakeProxyGenerator, new EventArgs());
 		}
 		
 		void SetTempFileText(string fileName, string text)
@@ -195,8 +184,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
-			
 			fakeProxyGenerator.AssertWasCalled(p => p.GenerateProxyFile());
 		}
 		
@@ -209,9 +196,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			generator.Options.ServiceName = "MyServiceRef";
 			
 			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedSuccessfully();
-			
 			string expectedProxyFileName = @"d:\projects\MyProject\Service References\MyServiceRef\Reference.cs";
 			
 			Assert.AreEqual(expectedProxyFileName, fakeProxyGenerator.Options.OutputFileName);
@@ -227,7 +211,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
 			string expectedDirectory = @"d:\projects\MyProject\Service References\MyService1";
 			
 			fakeFileSystem.AssertWasCalled(f => f.CreateDirectoryIfMissing(expectedDirectory));
@@ -244,8 +227,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
-			
 			fakeProject.AssertWasCalled(p => p.AddServiceReferenceProxyFile(expectedProxyFileName));
 		}
 		
@@ -259,8 +240,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
-			
 			fakeProject.AssertWasCalled(p => p.Save());
 		}
 		
@@ -273,8 +252,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			generator.Options.ServiceName = "MyServiceRef";
 			
 			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedSuccessfully();
 			
 			var expectedMapFile = new ServiceReferenceMapFile() {
 				FileName = @"d:\projects\MyProject\Service References\MyServiceRef\Reference.svcmap"
@@ -294,8 +271,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
-			
 			fakeProject.AssertWasCalled(p => p.AddServiceReferenceMapFile(expectedMapFileName));
 		}
 		
@@ -308,8 +283,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			generator.Options.ServiceName = "MyService";
 			
 			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedSuccessfully();
 			
 			fakeProject.AssertWasCalled(p => p.AddAssemblyReference("System.ServiceModel"));
 		}
@@ -343,8 +316,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 					mi => fakeProject.AssertWasCalled(p => p.AddAssemblyReference("System.ServiceModel"))));
 			
 			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedSuccessfully();
 		}
 		
 		[Test]
@@ -357,8 +328,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			SetProjectRootNamespace("Test");
 			
 			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedSuccessfully();
 			
 			Assert.AreEqual("Test.MyServiceRef", fakeProxyGenerator.Options.Namespace);
 		}
@@ -374,8 +343,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
-			
 			Assert.AreEqual("MyServiceRef", fakeProxyGenerator.Options.Namespace);
 		}
 		
@@ -390,8 +357,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
-			
 			Assert.AreEqual("CS", fakeProxyGenerator.Options.Language);
 		}
 		
@@ -405,8 +370,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			UseVisualBasicProject();
 			
 			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedSuccessfully();
 			
 			Assert.AreEqual("VB", fakeProxyGenerator.Options.Language);
 		}
@@ -424,8 +387,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			ProjectDoesNotHaveAppConfigFile();
 			
 			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedSuccessfully();
 			
 			Assert.AreEqual(expectedAppConfigFileName, fakeProxyGenerator.Options.AppConfigFileName);
 			Assert.IsFalse(fakeProxyGenerator.Options.NoAppConfig);
@@ -447,8 +408,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
-			
 			Assert.AreEqual(expectedAppConfigFileName, fakeProxyGenerator.Options.AppConfigFileName);
 			Assert.IsFalse(fakeProxyGenerator.Options.NoAppConfig);
 			Assert.IsTrue(fakeProxyGenerator.Options.MergeAppConfig);
@@ -468,8 +427,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			AddReferenceToProject(@"d:\projects\MyProject\lib\MyLib.dll");
 			
 			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedSuccessfully();
 			
 			string[] expectedReferences = new string[] {
 				"System.Windows.Forms",
@@ -492,8 +449,6 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			AddReferenceToProject(@"d:\projects\MyProject\lib\MyLib.dll");
 			
 			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedSuccessfully();
 			
 			Assert.AreEqual(0, fakeProxyGenerator.Options.Assemblies.Count);
 		}
@@ -618,7 +573,7 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
+			SvcUtilRunCompleted();
 			
 			fakeActiveTextEditors.AssertWasCalled(editors => editors.UpdateTextForOpenFile(appConfigFileName, "New appconfig text"));
 		}
@@ -636,7 +591,7 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
+			SvcUtilRunCompleted();
 			
 			fakeActiveTextEditors.AssertWasNotCalled(editors => editors.UpdateTextForOpenFile(Arg<string>.Is.Anything, Arg<string>.Is.Anything));
 		}
@@ -656,7 +611,7 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			generator.AddServiceReference();
 			
-			SvcUtilRunCompletedSuccessfully();
+			SvcUtilRunCompleted();
 			
 			fakeFileSystem.AssertWasCalled(fs => fs.DeleteFile(@"d:\temp\test.tmp"));
 		}
@@ -678,68 +633,10 @@ namespace ICSharpCode.SharpDevelop.Tests.ServiceReferences
 			
 			AppConfigIsClosedInTextEditor(appConfigFileName);
 			
-			SvcUtilRunCompletedSuccessfully();
+			SvcUtilRunCompleted();
 			
 			fakeFileSystem.AssertWasCalled(fs => fs.WriteAllText(appConfigFileName, "New appconfig text"));
 			fakeActiveTextEditors.AssertWasNotCalled(editors => editors.UpdateTextForOpenFile(Arg<string>.Is.Anything, Arg<string>.Is.Anything));			
-		}
-		
-		[Test]
-		public void AddServiceReference_AppConfigIsOriginallyOpenInTextEditorButSvcUtilFails_TempFileAppConfigContentIsNotUpdatedInTextEditor()
-		{
-			CreateGenerator();
-			AddProxyFileNameForServiceName("MyService");
-			AddMapFileNameForServiceName("MyService");
-			generator.Options.ServiceName = "MyService";
-			string appConfigFileName = @"d:\projects\MyProject\app.config";
-			SetProjectAppConfigFileName(appConfigFileName);
-			ProjectHasAppConfigFile();
-			AppConfigIsOpenInTextEditor(appConfigFileName, "appconfig text");
-			SetTempFileText(@"d:\temp\test.tmp", "New appconfig text");
-			
-			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedWithErrors();
-			
-			fakeActiveTextEditors.AssertWasNotCalled(editors => editors.UpdateTextForOpenFile(Arg<string>.Is.Anything, Arg<string>.Is.Anything));
-			fakeFileSystem.AssertWasCalled(fs => fs.DeleteFile(@"d:\temp\test.tmp"));
-		}
-		
-		[Test]
-		public void AddServiceReference_SvcUtilFails_ProjectNotUpdatedWithServiceReference()
-		{
-			CreateGenerator();
-			AddProxyFileNameForServiceName(@"d:\MyProject\Service References", "MyServiceRef");
-			AddMapFileNameForServiceName("MyServiceRef");
-			generator.Options.ServiceName = "MyServiceRef";
-			
-			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedWithErrors();
-			
-			fakeProject.AssertWasNotCalled(p => p.AddAssemblyReference(Arg<string>.Is.Anything));
-			fakeProject.AssertWasNotCalled(p => p.Save());
-			fakeProject.AssertWasNotCalled(p => p.AddServiceReferenceMapFile(Arg<ServiceReferenceMapFileName>.Is.Anything));
-			fakeProject.AssertWasNotCalled(p => p.AddServiceReferenceProxyFile(Arg<ServiceReferenceFileName>.Is.Anything));
-			fakeReferenceMapGenerator.AssertWasNotCalled(g => g.GenerateServiceReferenceMapFile(Arg<ServiceReferenceMapFile>.Is.Anything));
-		}
-		
-		[Test]
-		public void AddServiceReference_ProjectHasNoAppConfigButSvcUtilFails_AppConfigNotAddedToProject()
-		{
-			CreateGenerator();
-			AddProxyFileNameForServiceName("MyService");
-			AddMapFileNameForServiceName("MyService");
-			generator.Options.ServiceName = "MyService";
-			UseVisualBasicProject();
-			SetProjectAppConfigFileName(@"d:\projects\MyProject\app.config");
-			ProjectDoesNotHaveAppConfigFile();
-			
-			generator.AddServiceReference();
-			
-			SvcUtilRunCompletedWithErrors();
-			
-			fakeProject.AssertWasNotCalled(p => p.AddAppConfigFile());
 		}
 	}
 }

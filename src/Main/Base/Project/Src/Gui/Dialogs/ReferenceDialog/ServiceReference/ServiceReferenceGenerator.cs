@@ -18,7 +18,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 		IFileSystem fileSystem;
 		IActiveTextEditors activeTextEditors;
 		string tempAppConfigFileName;
-		ServiceReferenceFileName referenceFileName;
 		
 		public ServiceReferenceGenerator(IProject project)
 			: this(new ProjectWithServiceReferences(project))
@@ -51,21 +50,25 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 			set { fileGenerator.Options = value; }
 		}
 		
-		public event EventHandler<GeneratorCompleteEventArgs> Complete;
-		
-		void OnComplete(GeneratorCompleteEventArgs e)
+		public void AddServiceReference()
 		{
-			if (Complete != null) {
-				Complete(this, e);
+			GenerateServiceReferenceProxy();
+			project.AddAssemblyReference("System.ServiceModel");
+			project.Save();
+		}
+		
+		void GenerateServiceReferenceProxy()
+		{
+			ServiceReferenceFileName referenceFileName = GenerateProxyFile();
+			ServiceReferenceMapFileName mapFileName = CreateServiceReferenceMapFile();
+			project.AddServiceReferenceProxyFile(referenceFileName);
+			project.AddServiceReferenceMapFile(mapFileName);
+			if (!project.HasAppConfigFile()) {
+				project.AddAppConfigFile();
 			}
 		}
 		
-		public void AddServiceReference()
-		{
-			referenceFileName = StartProxyFileGeneration();
-		}
-		
-		ServiceReferenceFileName StartProxyFileGeneration()
+		ServiceReferenceFileName GenerateProxyFile()
 		{
 			ServiceReferenceFileName referenceFileName = project.GetServiceReferenceFileName(fileGenerator.Options.ServiceName);
 			CreateFolderForFileIfFolderMissing(referenceFileName.Path);
@@ -116,18 +119,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 			fileSystem.CreateDirectoryIfMissing(folder);
 		}
 		
-		void ProxyFileGenerationComplete(object sender, GeneratorCompleteEventArgs e)
+		void ProxyFileGenerationComplete(object sender, EventArgs e)
 		{
-			if (e.IsSuccess) {
-				UpdateProjectWithGeneratedServiceReference();
-			}
-			
 			if (tempAppConfigFileName != null) {
-				if (e.IsSuccess) {
-					UpdateAppConfigInTextEditor();
-				}
+				UpdateAppConfigInTextEditor();
 				DeleteTempAppConfigFile();
 			}
+<<<<<<< HEAD
 			OnComplete(e);
 		}
 		
@@ -145,6 +143,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 			}
 			
 			project.Save();
+=======
+>>>>>>> parent of b653ce3... When generating a service reference only update the project after svcutil has finishing executing and successfully generates the reference.
 		}
 		
 		void DeleteTempAppConfigFile()

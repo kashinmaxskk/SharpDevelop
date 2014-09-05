@@ -11,6 +11,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 		ServiceReferenceGeneratorOptions Options { get; set; }
 		void GenerateProxyFile();
 		
-		event EventHandler<GeneratorCompleteEventArgs> Complete;
+		event EventHandler Complete;
 	}
 }
