@@ -126,7 +126,7 @@ namespace ICSharpCode.PackageManagement
 		
 		public IEnumerable<IProject> GetMSBuildProjects()
 		{
-			return projectService.GetOpenProjects().OfType<MSBuildBasedProject>();
+			return projectService.GetOpenProjects();
 		}
 		
 		public bool IsOpen {
