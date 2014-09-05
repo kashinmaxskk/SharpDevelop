@@ -166,7 +166,5 @@ namespace ICSharpCode.PackageManagement
 		public bool SupportsPrereleasePackages {
 			get { return false; }
 		}
-		
-		public PackageSaveModes PackageSaveMode { get; set; }
 	}
 }

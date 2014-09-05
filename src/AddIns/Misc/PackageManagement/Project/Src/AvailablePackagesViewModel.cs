@@ -57,11 +57,11 @@ namespace ICSharpCode.PackageManagement
 		{
 			if (IncludePrerelease) {
 				return base.GetFilteredPackagesBeforePagingResults(allPackages)
-					.DistinctLast<IPackage>(PackageEqualityComparer.Id);
+					.DistinctLast(PackageEqualityComparer.Id);
 			}
 			return base.GetFilteredPackagesBeforePagingResults(allPackages)
 				.Where(package => package.IsReleaseVersion())
-				.DistinctLast<IPackage>(PackageEqualityComparer.Id);
+				.DistinctLast(PackageEqualityComparer.Id);
 		}
 	}
 }
