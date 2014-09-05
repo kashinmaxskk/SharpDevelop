@@ -48,20 +48,9 @@ namespace ICSharpCode.WpfDesign.Designer.Xaml
 			get { return _xamlObject.ElementType; }
 		}
 		
-		void SetNameInternal(string newName)
-		{
-			_xamlObject.Name = newName;
-		}
-		
 		public override string Name {
 			get { return _xamlObject.Name; }
-			set {
-				UndoService undoService = this.Services.GetService<UndoService>();
-				if (undoService != null)
-					undoService.Execute(new SetNameAction(this, value));
-				else
-					SetNameInternal(value);
-			}
+			set { _xamlObject.Name = value; }
 		}
 		
 		public override string Key {
@@ -184,53 +173,6 @@ namespace ICSharpCode.WpfDesign.Designer.Xaml
                 item = ((XamlDesignContext)Context)._componentService.RegisterXamlComponentRecursive(obj);
 		    }
 		    return item;
-		}
-		
-		sealed class SetNameAction : ITransactionItem
-		{
-			XamlDesignItem designItem;
-			string oldName;
-			string newName;
-			
-			public SetNameAction(XamlDesignItem designItem, string newName)
-			{
-				this.designItem = designItem;
-				this.newName = newName;
-				
-				oldName = designItem.Name;
-			}
-			
-			public string Title {
-				get {
-					return "Set name";
-				}
-			}
-			
-			public void Do()
-			{
-				designItem.SetNameInternal(newName);
-			}
-			
-			public void Undo()
-			{
-				designItem.SetNameInternal(oldName);
-			}
-			
-			public System.Collections.Generic.ICollection<DesignItem> AffectedElements {
-				get {
-					return new DesignItem[] { designItem };
-				}
-			}
-
-			public bool MergeWith(ITransactionItem other)
-			{
-				SetNameAction o = other as SetNameAction;
-				if (o != null && designItem == o.designItem) {
-					newName = o.newName;
-					return true;
-				}
-				return false;
-			}
 		}
 	}
 }
