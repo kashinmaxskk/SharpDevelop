@@ -83,29 +83,27 @@ namespace ICSharpCode.WpfDesign.AddIn
 				{
 					try
 					{
-						// DO NOT USE Assembly.LoadFrom!!!
-						// see http://community.sharpdevelop.net/forums/t/19968.aspx
-//						var assembly = Assembly.LoadFrom(f);
-//
-//						SideTab sideTab = new SideTab(sideBar, assembly.FullName.Split(new[] {','})[0]);
-//						sideTab.DisplayName = StringParser.Parse(sideTab.Name);
-//						sideTab.CanBeDeleted = false;
-//						sideTab.ChoosedItemChanged += OnChoosedItemChanged;
-//
-//						sideTab.Items.Add(new WpfSideTabItem());
-//
-//						foreach (var t in assembly.GetExportedTypes())
-//						{
-//							if (IsControl(t))
-//							{
-//								sideTab.Items.Add(new WpfSideTabItem(t));
-//							}
-//						}
-//
-//						if (sideTab.Items.Count > 1)
-//							sideBar.Tabs.Add(sideTab);
-//
-//						addedAssemblys.Add(f);
+						var assembly = Assembly.LoadFrom(f);
+
+						SideTab sideTab = new SideTab(sideBar, assembly.FullName.Split(new[] {','})[0]);
+						sideTab.DisplayName = StringParser.Parse(sideTab.Name);
+						sideTab.CanBeDeleted = false;
+						sideTab.ChoosedItemChanged += OnChoosedItemChanged;
+
+						sideTab.Items.Add(new WpfSideTabItem());
+
+						foreach (var t in assembly.GetExportedTypes())
+						{
+							if (IsControl(t))
+							{
+								sideTab.Items.Add(new WpfSideTabItem(t));
+							}
+						}
+
+						if (sideTab.Items.Count > 1)
+							sideBar.Tabs.Add(sideTab);
+
+						addedAssemblys.Add(f);
 					}
 					catch (Exception ex)
 					{
