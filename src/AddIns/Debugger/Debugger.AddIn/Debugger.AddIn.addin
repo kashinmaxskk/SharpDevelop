@@ -6,7 +6,6 @@
 	
 	<Manifest>
 		<Identity name = "ICSharpCode.Debugger"/>
-		<Dependency addin="ICSharpCode.ILSpyAddIn" />
 	</Manifest>
 	
 	<Runtime>
