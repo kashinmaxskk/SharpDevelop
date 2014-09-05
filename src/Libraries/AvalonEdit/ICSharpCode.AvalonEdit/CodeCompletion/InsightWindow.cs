@@ -76,6 +76,7 @@ namespace ICSharpCode.AvalonEdit.CodeCompletion
 	/// </summary>
 	internal sealed class InsightWindowTemplateSelector : DataTemplateSelector
 	{
+		/// <inheritdoc/>
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
 			if (item is string)

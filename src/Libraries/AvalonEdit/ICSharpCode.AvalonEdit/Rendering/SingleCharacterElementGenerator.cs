@@ -56,6 +56,7 @@ namespace ICSharpCode.AvalonEdit.Rendering
 			this.ShowBoxForControlCharacters = options.ShowBoxForControlCharacters;
 		}
 		
+		/// <inheritdoc/>
 		public override int GetFirstInterestedOffset(int startOffset)
 		{
 			DocumentLine endLine = CurrentContext.VisualLine.LastDocumentLine;
@@ -82,6 +83,7 @@ namespace ICSharpCode.AvalonEdit.Rendering
 			return -1;
 		}
 		
+		/// <inheritdoc/>
 		public override VisualLineElement ConstructElement(int offset)
 		{
 			char c = CurrentContext.Document.GetCharAt(offset);
