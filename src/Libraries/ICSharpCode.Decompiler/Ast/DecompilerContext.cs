@@ -33,7 +33,6 @@ namespace ICSharpCode.Decompiler
 		public TypeDefinition CurrentType;
 		public MethodDefinition CurrentMethod;
 		public DecompilerSettings Settings = new DecompilerSettings();
-		public bool CurrentMethodIsAsync;
 		
 //		public ITypeResolveContext TypeResolveContext;
 //		public IProjectContent ProjectContent;

@@ -333,11 +333,7 @@ namespace ICSharpCode.Decompiler.ILAst
 		/// The last child of this node is the call constructing the expression tree, all other children are the
 		/// assignments to the ParameterExpression variables.
 		/// </summary>
-		ExpressionTreeParameterDeclarations,
-		/// <summary>
-		/// C# 5 await
-		/// </summary>
-		Await
+		ExpressionTreeParameterDeclarations
 	}
 	
 	public static class ILCodeUtil

@@ -790,17 +790,8 @@ namespace ICSharpCode.Decompiler.ILAst
 				case ILCode.YieldBreak:
 					return null;
 				case ILCode.Ret:
-					if (forceInferChildren && expr.Arguments.Count == 1) {
-						TypeReference returnType = context.CurrentMethod.ReturnType;
-						if (context.CurrentMethodIsAsync && returnType != null && returnType.Namespace == "System.Threading.Tasks") {
-							if (returnType.Name == "Task") {
-								returnType = typeSystem.Void;
-							} else if (returnType.Name == "Task`1" && returnType.IsGenericInstance) {
-								returnType = ((GenericInstanceType)returnType).GenericArguments[0];
-							}
-						}
-						InferTypeForExpression(expr.Arguments[0], returnType);
-					}
+					if (forceInferChildren && expr.Arguments.Count == 1)
+						InferTypeForExpression(expr.Arguments[0], context.CurrentMethod.ReturnType);
 					return null;
 				case ILCode.YieldReturn:
 					if (forceInferChildren) {
@@ -812,14 +803,6 @@ namespace ICSharpCode.Decompiler.ILAst
 						}
 					}
 					return null;
-				case ILCode.Await:
-					{
-						TypeReference taskType = InferTypeForExpression(expr.Arguments[0], null);
-						if (taskType.Name == "Task`1" && taskType.IsGenericInstance && taskType.Namespace == "System.Threading.Tasks") {
-							return ((GenericInstanceType)taskType).GenericArguments[0];
-						}
-						return null;
-					}
 					#endregion
 				case ILCode.Pop:
 					return null;
