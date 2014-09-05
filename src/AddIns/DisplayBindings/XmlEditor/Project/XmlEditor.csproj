@@ -68,7 +68,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Src\XslTransformUrlResolver.cs" />
     <None Include="XmlEditor.addin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
