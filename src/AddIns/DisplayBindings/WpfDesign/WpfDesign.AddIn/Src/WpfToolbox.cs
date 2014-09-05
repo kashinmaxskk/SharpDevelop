@@ -183,13 +183,7 @@ namespace ICSharpCode.WpfDesign.AddIn
 				if (this.ActiveTab.ChoosedItem != draggedItem && this.ActiveTab.Items.Contains(draggedItem)) {
 					this.ActiveTab.ChoosedItem = draggedItem;
 				}
-				
-				if (draggedItem.Tag != null) {
-					return new System.Windows.DataObject(draggedItem.Tag);
-				}
-				else {
-					return new System.Windows.DataObject();
-				}
+				return new System.Windows.DataObject(draggedItem.Tag);
 			}
 		}
 	}
