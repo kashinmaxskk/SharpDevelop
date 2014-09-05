@@ -272,7 +272,7 @@ namespace Mono.Cecil {
 
 		public static TypeReference ParseType (ModuleDefinition module, string fullname)
 		{
-			if (string.IsNullOrEmpty (fullname))
+			if (fullname == null)
 				return null;
 
 			var parser = new TypeParser (fullname);

@@ -107,7 +107,6 @@ namespace Mono.Cecil {
 					? ((MethodReference) owner).DeclaringType.Scope
 					: ((TypeReference) owner).Scope;
 			}
-			set { throw new InvalidOperationException (); }
 		}
 
 		public override ModuleDefinition Module {

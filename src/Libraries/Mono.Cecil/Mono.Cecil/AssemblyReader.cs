@@ -778,12 +778,8 @@ namespace Mono.Cecil {
 
 			var nested_types = new MemberDefinitionCollection<TypeDefinition> (type, mapping.Length);
 
-			for (int i = 0; i < mapping.Length; i++) {
-				var nested_type = GetTypeDefinition (mapping [i]);
-
-				if (nested_type != null)
-					nested_types.Add (nested_type);
-			}
+			for (int i = 0; i < mapping.Length; i++)
+				nested_types.Add (GetTypeDefinition (mapping [i]));
 
 			metadata.RemoveNestedTypeMapping (type);
 

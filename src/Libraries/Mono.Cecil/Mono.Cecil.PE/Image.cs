@@ -41,7 +41,6 @@ namespace Mono.Cecil.PE {
 		public ModuleKind Kind;
 		public TargetRuntime Runtime;
 		public TargetArchitecture Architecture;
-		public ModuleCharacteristics Characteristics;
 		public string FileName;
 
 		public Section [] Sections;
