@@ -30,35 +30,25 @@ namespace ICSharpCode.AvalonEdit.Rendering
 			this.target = target;
 			this.target.MouseLeave += MouseHoverLogicMouseLeave;
 			this.target.MouseMove += MouseHoverLogicMouseMove;
-			this.target.MouseEnter += MouseHoverLogicMouseEnter;
 		}
-		
+	
 		void MouseHoverLogicMouseMove(object sender, MouseEventArgs e)
 		{
-			Vector mouseMovement = mouseHoverStartPoint - e.GetPosition(this.target);
+			Point newPosition = e.GetPosition(this.target);
+			Vector mouseMovement = mouseHoverStartPoint - newPosition;
 			if (Math.Abs(mouseMovement.X) > SystemParameters.MouseHoverWidth
 			    || Math.Abs(mouseMovement.Y) > SystemParameters.MouseHoverHeight)
 			{
-				StartHovering(e);
+				StopHovering();
+				mouseHoverStartPoint = newPosition;
+				mouseHoverLastEventArgs = e;
+				mouseHoverTimer = new DispatcherTimer(SystemParameters.MouseHoverTime, DispatcherPriority.Background,
+				                                      OnMouseHoverTimerElapsed, this.target.Dispatcher);
+				mouseHoverTimer.Start();
 			}
 			// do not set e.Handled - allow others to also handle MouseMove
 		}
-		
-		void MouseHoverLogicMouseEnter(object sender, MouseEventArgs e)
-		{
-			StartHovering(e);
-			// do not set e.Handled - allow others to also handle MouseEnter
-		}
-		
-		void StartHovering(MouseEventArgs e)
-		{
-			StopHovering();
-			mouseHoverStartPoint = e.GetPosition(this.target);
-			mouseHoverLastEventArgs = e;
-			mouseHoverTimer = new DispatcherTimer(SystemParameters.MouseHoverTime, DispatcherPriority.Background, OnMouseHoverTimerElapsed, this.target.Dispatcher);
-			mouseHoverTimer.Start();
-		}
-		
+	
 		void MouseHoverLogicMouseLeave(object sender, MouseEventArgs e)
 		{
 			StopHovering();
@@ -126,7 +116,6 @@ namespace ICSharpCode.AvalonEdit.Rendering
 			if (!disposed) {
 				this.target.MouseLeave -= MouseHoverLogicMouseLeave;
 				this.target.MouseMove -= MouseHoverLogicMouseMove;
-				this.target.MouseEnter -= MouseHoverLogicMouseEnter;
 			}
 			disposed = true;
 		}
